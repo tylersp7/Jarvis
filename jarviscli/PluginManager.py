@@ -15,7 +15,21 @@ class PluginManager(object):
     """
 
     def __init__(self):
+        import pluginmanager.module_manager
         self._backend = pluginmanager.PluginInterface()
+
+        # patch to ignore import exception
+        _load_source = pluginmanager.module_manager.load_source
+
+        def patched_load_source(*args):
+            try:
+                return _load_source(*args)
+            except ImportError as e:
+                print(e)
+            import sys
+            return sys
+        pluginmanager.module_manager.load_source = patched_load_source
+
         self._plugin_dependency = PluginDependency()
 
         self._cache = None
@@ -45,7 +59,6 @@ class PluginManager(object):
             return
 
         self._cache = plugin.PluginStorage()
-
         self._backend.collect_plugins()
         (enabled, disabled) = self._validate_plugins(self._backend.get_plugins())
 
@@ -259,7 +272,13 @@ class PluginDependency(object):
     def _check_native(self, values, plugin):
         missing = ""
         for native in values:
-            if not executable_exists(native):
+            if native.startswith('!'):
+                # native should not exist
+                requirement_ok = not executable_exists(native[1:])
+            else:
+                requirement_ok = executable_exists(native)
+
+            if not requirement_ok:
                 missing += native
                 missing += " "
 

@@ -8,8 +8,8 @@ if unix_windows.IS_WIN:
     fw = open('jarvis.bat', 'w')
     fw.write("""\
 @ECHO off
-CALL {JARVISPATH}\\env\\Scripts\\activate.bat
-python {JARVISPATH}\\jarviscli\\
+CALL "{JARVISPATH}\\env\\Scripts\\activate.bat"
+python "{JARVISPATH}\\jarviscli" %*
     """.format(JARVISPATH=os.getcwd()))
     section("FINISH")
 
@@ -19,9 +19,9 @@ else:
     section("Write Jarvis starter")
 
     JARVIS_MACRO = """\
-    #!/bin/bash
-    source {PATH}/env/bin/activate
-    python {PATH}/jarviscli
+#!/bin/bash
+source "{PATH}/env/bin/activate"
+python "{PATH}/jarviscli" "$@"
     """
 
     fw = open('jarvis', 'w')

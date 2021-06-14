@@ -8,7 +8,7 @@ PackageManager = {
     "macos": "brew install",
     "linux": {
         "readhat": "sudo yum",
-        "arch": "sudo packman -S",
+        "arch": "sudo pacman -S",
         "gentoo": "sudo emerge --ask --verbose",
         "suse": "sudo zypper install",
         "debian": "sudo apt-get install"
@@ -18,7 +18,7 @@ PackageManager = {
 
 LinuxDistroRecognition = {
     "yum": "redhat",
-    "packman": "arch",
+    "pacman": "arch",
     "emerge": "gentoo",
     "zypper": "suse",
     "apt-get": "debian"
@@ -51,6 +51,14 @@ RequestsSecurity = {
     "pip": ['requests[security]'],
     "description": "Better/saver https",
     "instruction": "https://stackoverflow.com/questions/31811949/pip-install-requestssecurity-vs-pip-install-requests-difference"
+}
+
+
+Fasttext = {
+    "name": "Fasttext language recognition",
+    "pip": ['fasttext'],
+    "description": "Fasttext is a text classification library capable of detecting 176 languages.",
+    "instructions": "https://github.com/facebookresearch/fastText/#requirements"
 }
 
 
@@ -106,7 +114,40 @@ ESPEAK = {
 }
 
 
-OPTIONAL_REQUIREMENTS = [PortAudio, RequestsSecurity, FFMPEG, ESPEAK]
+WKHTMLTOPDF = {
+    "name": "wkhtmltopdf",
+    "executable": ['wkhtmltopdf'],
+    "description": "Convert html file or web url into pdf ",
+    "instruction": "Please install 'wkhtmltopdf' manually using your local package manager!",
+    "package_guess": {
+        "linux": {
+            'redhat': 'wkhtmltopdf',
+            'arch': 'wkhtmltopdf',
+            'gentoo': 'wkhtmltopdf',
+            'suse': 'wkhtmltopdf',
+            'debian': 'wkhtmltopdf'
+        }
+    }
+}
+
+HTOP = {
+    "name": "htop",
+    "executable": ['htop'],
+    "description": "Interactive system-monitor process-viewer and process-manager",
+    "instruction": "Please install 'htop' manually using your local package manager!",
+    "package_guess": {
+        "linux": {
+            'redhat': 'htop',
+            'arch': 'htop',
+            'gentoo': 'htop',
+            'suse': 'htop',
+            'debian': 'htop'
+        }
+    }
+}
+
+
+OPTIONAL_REQUIREMENTS = [PortAudio, RequestsSecurity, FFMPEG, ESPEAK, WKHTMLTOPDF, Fasttext, HTOP]
 
 
 if not sys.platform == "darwin":
